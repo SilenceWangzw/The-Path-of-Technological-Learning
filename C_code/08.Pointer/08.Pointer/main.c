@@ -1,5 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 
 //一、指针变量和地址
 //1.取地址操作符
@@ -1061,70 +1063,155 @@
 //1.回调函数是什么
 //回调函数就是一个通过函数指针调用的函数
 //就是通过一个函数指针的地址，去调用这个函数，这个被调函数就叫回调函数
-int Add(int x, int y)
+//int Add(int x, int y)
+//{
+//	return x + y;
+//}
+//int Sub(int x, int y)
+//{
+//	return x - y;
+//}
+//int Mul(int x, int y)
+//{
+//	return x * y;
+//}
+//int Div(int x, int y)
+//{
+//	return x / y;
+//}
+//void menu()
+//{
+//	printf("*****************************\n");
+//	printf("*******  1.add   2.sub  *****\n");
+//	printf("*******  3.mul   4.div  *****\n");
+//	printf("*******  0.exit         *****\n");
+//	printf("*****************************\n");
+//}
+//void Calc(int(*pf)(int, int))
+//{
+//	int x = 0;
+//	int y = 0;
+//	int ret = 0;
+//	printf("请输入两个操作数:> ");
+//	scanf("%d%d", &x, &y);
+//	ret = pf(x, y);
+//	printf("%d\n", ret);
+//}
+//int main()
+//{
+//	int input = 0;
+//
+//	do
+//	{
+//		menu();
+//		printf("请选择:>");
+//		scanf("%d", &input);
+//		switch (input)
+//		{
+//		case 1:
+//			Calc(Add);
+//			break;
+//		case 2:
+//			Calc(Sub);
+//			break;
+//		case 3:
+//			Calc(Mul);
+//			break;
+//		case 4:
+//			Calc(Div);
+//			break;
+//		case 0:
+//			printf("退出计算器\n");
+//			break;
+//		default:
+//			printf("选择错误，请重新选择\n");
+//			break;
+//		}
+//	} while (input);
+//	return 0;
+
+
+//2.qsort使用举例
+//qsort是C语言中的一个库函数，这个函数是用来对数据进行排序的
+//对任意类型的数据都能进行排序
+//qsort -- quick sort -- 底层用的是快速排序的思想
+//①使用qsort函数排序整型数据
+//int cmp_int(const void* p1, const void* p2)
+//{
+//	if (*(int*)p1 > *(int*)p2)
+//	{
+//		return 1;
+//	}
+//	else if (*(int*)p1 == *(int*)p2)
+//	{
+//		return 0;
+//	}
+//	else
+//	{
+//		return -1;
+//	}
+//}
+//int main()
+//{
+//	int arr[] = { 3,1,7,9,4,2,6,5,8,0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//
+//	qsort(arr, sz, sizeof(arr[0]), cmp_int);
+//
+//	for (int i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	return 0;
+//}
+
+
+//②qsort函数的模拟实现
+//将冒泡排序改造成类似qsort的通用算法
+void Swap(char* buf1, char* buf2, size_t width)
 {
-	return x + y;
+	int i = 0;
+	char tmp = 0;
+	for (int i = 0; i < width; i++)
+	{
+		tmp = *buf1;
+		*buf1 = *buf2;
+		*buf2 = tmp;
+
+		buf1++;
+		buf2++;
+	}
 }
-int Sub(int x, int y)
+int cmp_int(const void* p1, const void* p2)
 {
-	return x - y;
+	return *(int*)p1 - *(int*)p2;
 }
-int Mul(int x, int y)
+void bubble_sort(void* base, size_t sz, size_t width, int(*cmp)(const void* p1, const void* p2))
 {
-	return x * y;
-}
-int Div(int x, int y)
-{
-	return x / y;
-}
-void menu()
-{
-	printf("*****************************\n");
-	printf("*******  1.add   2.sub  *****\n");
-	printf("*******  3.mul   4.div  *****\n");
-	printf("*******  0.exit         *****\n");
-	printf("*****************************\n");
-}
-void Calc(int(*pf)(int, int))
-{
-	int x = 0;
-	int y = 0;
-	int ret = 0;
-	printf("请输入两个操作数:> ");
-	scanf("%d%d", &x, &y);
-	ret = pf(x, y);
-	printf("%d\n", ret);
+	for (int i = 0; i < sz - 1; i++)
+	{
+		for (int j = 0; j < sz - 1 - i; j++)
+		{
+			//比较元素大小
+			if (cmp((char*)base + j * width, (char*)base + (j + 1) * width) > 0)
+			{
+				//交换元素
+				Swap((char*)base + j * width, (char*)base + (j + 1) * width, width);
+			}
+		}
+	}
 }
 int main()
 {
-	int input = 0;
+	int arr[] = { 3,1,7,9,4,2,6,5,8,0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
 
-	do
+	bubble_sort(arr, sz, sizeof(arr[0]), &cmp_int);
+
+	for (int i = 0; i < sz; i++)
 	{
-		menu();
-		printf("请选择:>");
-		scanf("%d", &input);
-		switch (input)
-		{
-		case 1:
-			Calc(Add);
-			break;
-		case 2:
-			Calc(Sub);
-			break;
-		case 3:
-			Calc(Mul);
-			break;
-		case 4:
-			Calc(Div);
-			break;
-		case 0:
-			printf("退出计算器\n");
-			break;
-		default:
-			printf("选择错误，请重新选择\n");
-			break;
-		}
-	} while (input);
+		printf("%d ", arr[i]);
+	}
+
 	return 0;
 }
