@@ -345,19 +345,142 @@
 //}
 
 
+//int main()
+//{
+//	char arr[] = "Silence@yeah.net";
+//	char buf[256] = { 0 };
+//	strcpy(buf, arr);
+//
+//	char sep[] = "@.";
+//	
+//	char* ret = NULL;
+//	for (ret = strtok(buf, sep); ret != NULL; ret = strtok(NULL, sep))
+//	{
+//		printf("%s\n", ret);
+//	}
+//
+//	return 0;
+//}
+
+
+
+
+//六、strstr的使用和模拟实现
+//strstr是用来在一个字符中找另一个字符串是否出现过
+//如果找到了，就返回第一次出现的起始地址，如果找不到，就返回空指针
+//int main()
+//{
+//	char arr[] = "abcdefabcdef";
+//	char* p = "efab";
+//
+//	char* ret = strstr(arr, p);
+//	if (ret == NULL)
+//	{
+//		printf("不存在\n");
+//	}
+//	else
+//	{
+//		printf("%s\n", ret);//efabcdef
+//	}
+//	return 0;
+//}
+
+
+//strstr的模拟实现
+//char* my_strstr(const char* str1, const char* str2)
+//{
+//	assert(str1 && str2);
+//	const char* s1 = NULL;
+//	const char* s2 = NULL;
+//	const char* cur = str1;
+//
+//	//特殊情况 -- str2指向的是空字符串，直接返回str1
+//	if (*str2 == '\0')
+//	{
+//		return str1;
+//	}
+//
+//	while (*cur != '\0')
+//	{
+//		s1 = cur;
+//		s2 = str2;
+//
+//		while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+//		{
+//			s1++;
+//			s2++;
+//		}
+//		if (*s2 == '\0')
+//		{
+//			return cur;
+//		}
+//		cur++;
+//	}
+//	return NULL;
+//}
+//int main()
+//{
+//	char arr[] = "abcdefabcdef";
+//	char* p = "efab";
+//
+//	const char* ret = my_strstr(arr, p);
+//	if (ret == NULL)
+//	{
+//		printf("不存在\n");
+//	}
+//	else
+//	{
+//		printf("%s\n", ret);//efabcdef
+//	}
+//	return 0;
+//}
+
+
+
+
+//七、strerror函数的使用
+//在不同的系统和C语言标准库的实现中都规定了一些错误码，一般是放在errno.h这个头文件中说明的
+//C语言程序启动的时候就会使用一个全局的变量errno来记录程序当前的错误码
+//当我们在使用标准库中的函数的时候发生了某种错误，就会将对应的错误码存放在errno中
+//strerror函数就可以将错误对应的错误信息字符串的地址返回
+//#include<errno.h>
+//int main()
+//{
+//	int i = 0;
+//	for (i = 0; i <= 10; i++)
+//	{
+//		printf("%d %s\n", i, strerror(i));
+//	}
+//	return 0;
+//}
+
+
+//#include<errno.h>
+//int main()
+//{
+//	//打开文件
+//	FILE* pf = fopen("data.txt", "r");//以读文件的形式打开文件，如果文件不存在，就打开失败
+//	if (pf == NULL)
+//	{
+//		printf("打开文件失败，原因是：%s\n", strerror(errno));
+//		return 1;
+//	}
+//	return 0;
+//}
+
+
+//注意区别：perror是将error中错误信息打印出来
+#include<errno.h>
 int main()
 {
-	char arr[] = "Silence@yeah.net";
-	char buf[256] = { 0 };
-	strcpy(buf, arr);
-
-	char sep[] = "@.";
-	
-	char* ret = NULL;
-	for (ret = strtok(buf, sep); ret != NULL; ret = strtok(NULL, sep))
+	//打开文件
+	FILE* pf = fopen("data.txt", "r");//以读文件的形式打开文件，如果文件不存在，就打开失败
+	if (pf == NULL)
 	{
-		printf("%s\n", ret);
+		printf("打开文件失败，原因是: %s\n", strerror(errno));
+		//perror = printf + strerror
+		perror("打开文件失败，原因是");
+		return 1;
 	}
-
 	return 0;
 }
