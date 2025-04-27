@@ -75,8 +75,8 @@
 //		{
 //			*((char*)dest + num) = *((char*)src + num);
 //		}
-//		return ret;
 //	}
+//	return ret;
 //}
 //int main()
 //{
