@@ -103,14 +103,68 @@
 
 
 //练习5：
-int main()
-{
-	char a[1000];
-	int i = 0;
-	for (i = 0; i < 1000; i++)
-	{
-		a[i] = -1 - i;
-	}
-	printf("%d", strlen(a));
-	return 0;
-}
+//int main()
+//{
+//	char a[1000];
+//	int i = 0;
+//	for (i = 0; i < 1000; i++)
+//	{
+//		a[i] = -1 - i;
+//		//-1 -2 -3......-128 127 126 .....1 0
+//	}
+//	printf("%d", strlen(a));
+//	return 0;
+//}
+
+
+//练习6：
+//unsigned char i = 0;
+//int main()
+//{
+//	for (i = 0; i <= 255; i++)
+//	{
+//		printf("Hello World\n");//死循环
+//	}
+//	return 0;
+//}
+
+
+//练习7：
+//int main()
+//{
+//	unsigned int i;
+//	for (i = 9; i >= 0; i--)
+//	{
+//		printf("%u\n", i);//死循环
+//	}
+//	return 0;
+//}
+
+
+//练习8：
+//x86环境，小端字节序
+//int main()
+//{
+//	int a[4] = { 1,2,3,4 };
+//	int* ptr1 = (int*)(&a + 1);
+//	int* ptr2 = (int*)((int)a + 1);
+//
+//	printf("%x,%x\n", ptr1[-1], *ptr2);
+//	return 0;
+//}
+
+
+
+
+//三、浮点数在内存中的存储
+//int main()
+//{
+//	float f = 5.5f;
+//	//S = 0
+//	//E = 2
+//	//M = 1.011
+//	//0 10000001 01100000000000000000000
+//	//0100 0000 1011 0000 0000000000000000
+//	//0x40 b0 00 00
+//	return 0;
+//}
