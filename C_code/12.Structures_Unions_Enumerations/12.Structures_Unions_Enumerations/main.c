@@ -221,33 +221,213 @@
 
 
 //五、联合体
+//像结构一样，联合体也是由一个或者多个成员构成，这些成员可以是不同类型
+//但是编译器只为最大的成员分配足够的内存空间，联合体的特点是所有成功共用一块内存空间
+//所有联合体也叫共用体
+//1.联合体类型的声明
+//struct S
+//{
+//	char c;
+//	int i;
+//};
+//union Un
+//{
+//	char c;
+//	int i;
+//};
+//int main()
+//{
+//	printf("%zd\n", sizeof(struct S));
+//	printf("%zd\n", sizeof(union Un));
+//	return 0;
+//}
+
+
+//union Un
+//{
+//	char c;
+//	int i;
+//};
+//int main()
+//{
+//	union Un un = { 0 };
+//	printf("%zd\n", sizeof(un));
+//	//i和c共用同一块内存空间
+//	printf("%p\n", &un);
+//	printf("%p\n", &un.c);
+//	printf("%p\n", &un.i);
+//	return 0;
+//}
+
+
+//2.联合体大小的计算
+//联合体大小至少是最大成员的大小
+//当最大成员大小不是最大对齐数的整数倍的时候，就要对齐到最大对齐数的整数倍
+//union Un
+//{
+//	char arr[5];
+//	int i;
+//};
+//int main()
+//{
+//	printf("%zd\n", sizeof(union Un));
+//	return 0;
+//}
+
+
+//union Un
+//{
+//	short arr[7];//14    2 8 -- 2
+//	int i;//             4 8 -- 4
+//};
+//int main()
+//{
+//	printf("%zd\n", sizeof(union Un));
+//	return 0;
+//}
+
+
+//联合体节约内存举例：
+//struct gift_list
+//{
+//	//公共属性
+//	int stock_number;//库存量
+//	double price;//定价
+//	int item_type;//商品类型
+//
+//	//特殊属性
+//	union
+//	{
+//		struct
+//		{
+//			char title[20];//书名
+//			char author[20];//作者
+//			int num_pages;//页数
+//		}book;
+//
+//		struct
+//		{
+//			char design[30];//设计
+//		}mug;
+//
+//		struct
+//		{
+//			char design[30];//设计
+//			int colors;//颜色
+//			int sizes;//尺寸
+//		}shirt;
+//	}item;
+//};
+
+
+//练习：写一个程序判断当前机器是大端还是小端
+//写法1：
+//int main()
+//{
+//	int a = 1;
+//	if (*(char*)&a == 1)
+//	{
+//		printf("小端\n");
+//	}
+//	else
+//	{
+//		printf("大端\n");
+//	}
+//	return 0;
+//}
+//写法2：
+//union Un
+//{
+//	char c;
+//	int i;
+//};
+//int main()
+//{
+//	union Un un = { 0 };
+//	un.i = 1;
+//	if (un.c == 1)
+//	{
+//		printf("小端\n");
+//	}
+//	else
+//	{
+//		printf("大端\n");
+//	}
+//	return 0;
+//}
 
 
 
 
 //六、枚举类型
 //枚举顾名思义就是一一列举，把可能的取值一一列举
-enum Sex
-{
-	//该枚举类型的三种可能取值，他们都是常量，被称为枚举常量
-	MALE,
-	FEMALE,
-	SECRET
-};
-int main()
-{
-	enum Sex sex1 = MALE;
-	enum Sex sex2 = FEMALE;
-
-	//枚举常量的址默认从0开始
-	printf("%d\n", MALE);//0
-	printf("%d\n", FEMALE);//1
-	printf("%d\n", SECRET);//2
-	return 0;
-}
+//enum Sex
+//{
+//	//该枚举类型的三种可能取值，他们都是常量，被称为枚举常量
+//	MALE,
+//	FEMALE,
+//	SECRET
+//};
+//int main()
+//{
+//	enum Sex sex1 = MALE;
+//	enum Sex sex2 = FEMALE;
+//
+//	//枚举常量的址默认从0开始
+//	printf("%d\n", MALE);//0
+//	printf("%d\n", FEMALE);//1
+//	printf("%d\n", SECRET);//2
+//	return 0;
+//}
 //枚举的优点
 //①增加代码的可读性和可维护性
 //②和define定义的标识符比起来，枚举有类型检查，更加严谨
 //③便于调试，预处理阶段会删除#define定义的符号
 //④使用方便，一次可以定义多个常量
 //⑤枚举常量是遵循作用域规则的，枚举声明在函数内，只能在函数内使用
+
+
+//例：用枚举类型写一个计算器
+//enum Option
+//{
+//	EXIT,//0
+//	ADD,//1
+//	SUB,//2
+//	MUL,//3
+//	DIV//4
+//};
+//void menu()
+//{
+//	printf("*******************************\n");
+//	printf("*******  1.add   2.sub  *******\n");
+//	printf("*******  3.mul   4.div  *******\n");
+//	printf("*******  0.exit         *******\n");
+//	printf("*******************************\n");
+//}
+//int main()
+//{
+//	int input = 0;
+//	do {
+//		menu();
+//		printf("请选择:> ");
+//		scanf("%d", &input);
+//		switch (input)
+//		{
+//		case ADD:
+//			break;
+//		case SUB:
+//			break;
+//		case MUL:
+//			break;
+//		case DIV:
+//			break;
+//		case EXIT:
+//			printf("退出\n");
+//			break;
+//		default:
+//			printf("选择错误，请重新选择\n");
+//			break;
+//		}
+//	} while (input);
+//	return 0;
+//}
